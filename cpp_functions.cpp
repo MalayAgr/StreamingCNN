@@ -10,12 +10,12 @@
 #include <ATen/Functions.h>
 
 at::Tensor backward_weight(
-    c10::ArrayRef<long int> weight_size,
+    c10::IntArrayRed<long int> weight_size,
     const at::Tensor& grad_output,
     const at::Tensor& input,
-    c10::ArrayRef<long int> padding,
-    c10::ArrayRef<long int> stride,
-    c10::ArrayRef<long int> dilation,
+    c10::IntArrayRef<long int> padding,
+    c10::IntArrayRef<long int> stride,
+    c10::IntArrayRef<long int> dilation,
     int64_t groups,
     bool benchmark,
     bool deterministic) {
@@ -29,15 +29,16 @@ at::Tensor backward_weight(
       dilation,
       groups,
       benchmark,
-      deterministic);
+      deterministic,
+      true);
 }
 at::Tensor backward_input(
-    c10::ArrayRef<long int> input_size,
+    c10::IntArrayRef<long int> input_size,
     const at::Tensor& grad_output,
     const at::Tensor& weight,
-    c10::ArrayRef<long int> padding,
-    c10::ArrayRef<long int> stride,
-    c10::ArrayRef<long int> dilation,
+    c10::IntArrayRef<long int> padding,
+    c10::IntArrayRef<long int> stride,
+    c10::IntArrayRef<long int> dilation,
     int64_t groups,
     bool benchmark,
     bool deterministic) {
@@ -51,7 +52,8 @@ at::Tensor backward_input(
       dilation,
       groups,
       benchmark,
-      deterministic);
+      deterministic
+      true);
 }
 
 // From pytorch/torch/csrc/Module.cpp

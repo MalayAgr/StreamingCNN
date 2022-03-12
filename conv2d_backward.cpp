@@ -5,12 +5,12 @@
 #include <ATen/Config.h>
 
 at::Tensor backward_weight(
-    c10::ArrayRef<int64_t> weight_size,
+    c10::IntArrayRef<int64_t> weight_size,
     const at::Tensor& grad_output,
     const at::Tensor& input,
-    c10::ArrayRef<int64_t> padding,
-    c10::ArrayRef<int64_t> stride,
-    c10::ArrayRef<int64_t> dilation,
+    c10::IntArrayRef<int64_t> padding,
+    c10::IntArrayRef<int64_t> stride,
+    c10::IntArrayRef<int64_t> dilation,
     int64_t groups,
     bool benchmark,
     bool deterministic) {
@@ -24,7 +24,8 @@ at::Tensor backward_weight(
       dilation,
       groups,
       benchmark,
-      deterministic);
+      deterministic
+      true);
 }
 
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
