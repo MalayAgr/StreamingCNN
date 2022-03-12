@@ -10,7 +10,7 @@
 #include <ATen/Functions.h>
 
 at::Tensor backward_weight(
-    c10::IntArrayRed<long int> weight_size,
+    c10::IntArrayRef<long int> weight_size,
     const at::Tensor& grad_output,
     const at::Tensor& input,
     c10::IntArrayRef<long int> padding,
@@ -52,7 +52,7 @@ at::Tensor backward_input(
       dilation,
       groups,
       benchmark,
-      deterministic
+      deterministic,
       true);
 }
 
