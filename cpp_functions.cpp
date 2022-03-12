@@ -78,10 +78,4 @@ using namespace pybind11::literals;
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
   m.def("backward", &backward_weight, "Conv backward_weight cudnn");
   m.def("backward_input", &backward_input, "Conv backward_input cudnn");
-  m.def("to_dlpack_with_device_id", [](const at::Tensor& data, int64_t device_id) {
-      DLManagedTensor* dlMTensor = at::toDLPack(data);
-      dlMTensor->dl_tensor.ctx.device_id = device_id;
-      auto capsule = py::capsule(dlMTensor, "dltensor", DLPack_Capsule_Destructor);
-      return capsule;
-  }, "Specify device_id in dlpack, for cupy to copy to right GPU");
 }
