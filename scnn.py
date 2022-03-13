@@ -23,8 +23,9 @@ from tqdm import tqdm
 # from torch.nn.grad import _grad_input_padding
 
 try:
-    from torch.cuda.amp import \
-        autocast  # pylint: disable=import-error,no-name-in-module
+    from torch.cuda.amp import (
+        autocast,
+    )  # pylint: disable=import-error,no-name-in-module
 
     def forward_amp_decorator(func):
         return torch.cuda.amp.custom_fwd(func)  # type:ignore
