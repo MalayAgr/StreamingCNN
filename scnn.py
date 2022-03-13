@@ -180,8 +180,8 @@ class StreamingConv2dF(torch.autograd.Function):
                     padding,
                     dilation,
                     groups,
-                    torch.backends.cudnn.benchmark,
-                    torch.backends.cudnn.deterministic,
+                    False,
+                    False,
                 )
         else:
             grad_in = None
@@ -300,8 +300,8 @@ class StreamingConv2dF(torch.autograd.Function):
                 stride[1:3],
                 dilation,
                 groups,
-                torch.backends.cudnn.benchmark,  # benchmark
-                torch.backends.cudnn.deterministic,
+                False,
+                False
             )  # deterministic
 
             if bias is not None:
