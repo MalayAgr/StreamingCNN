@@ -29,7 +29,8 @@ at::Tensor backward_weight(
       dilation,
       groups,
       benchmark,
-      deterministic);
+      deterministic,
+      true);
 }
 at::Tensor backward_input(
     c10::ArrayRef<int64_t> input_size,
@@ -51,7 +52,8 @@ at::Tensor backward_input(
       dilation,
       groups,
       benchmark,
-      deterministic);
+      deterministic,
+      true);
 }
 
 // From pytorch/torch/csrc/Module.cpp
