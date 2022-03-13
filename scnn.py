@@ -23,9 +23,8 @@ from tqdm import tqdm
 # from torch.nn.grad import _grad_input_padding
 
 try:
-    from torch.cuda.amp import (
-        autocast,
-    )  # pylint: disable=import-error,no-name-in-module
+    from torch.cuda.amp import \
+        autocast  # pylint: disable=import-error,no-name-in-module
 
     def forward_amp_decorator(func):
         return torch.cuda.amp.custom_fwd(func)  # type:ignore
@@ -167,20 +166,9 @@ class StreamingConv2dF(torch.autograd.Function):
                     groups,
                 )
             else:
-                print(
-                    inpt.shape,
-                    grad_output,
-                    weight.to(inpt.dtype),
-                    stride,
-                    padding,
-                    dilation,
-                    groups,
-                    torch.backends.cudnn.benchmark,
-                    torch.backends.cudnn.deterministic,
-                )
                 # with autocast(enabled=False): ?
                 grad_in = cpp_functions.backward_input(
-                    inpt.shape,
+                    tuple(inpt.shape),
                     grad_output,
                     weight.to(inpt.dtype),
                     stride,
@@ -300,7 +288,7 @@ class StreamingConv2dF(torch.autograd.Function):
             relevant_grad = relevant_grad.contiguous()
 
             grad_weight = cpp_functions.backward(
-                weight.shape,
+                tuple(weight.shape),
                 relevant_grad.to(weight.dtype),
                 relevant_input.to(weight.dtype),
                 (0, 0),  # padding
