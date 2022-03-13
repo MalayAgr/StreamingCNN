@@ -10,12 +10,12 @@
 #include <ATen/Functions.h>
 
 at::Tensor backward_weight(
-    c10::ArrayRef<long int> weight_size,
+    c10::ArrayRef<int64_t> weight_size,
     const at::Tensor& grad_output,
     const at::Tensor& input,
-    c10::ArrayRef<long int> padding,
-    c10::ArrayRef<long int> stride,
-    c10::ArrayRef<long int> dilation,
+    c10::ArrayRef<int64_t> padding,
+    c10::ArrayRef<int64_t> stride,
+    c10::ArrayRef<int64_t> dilation,
     int64_t groups,
     bool benchmark,
     bool deterministic) {
@@ -32,12 +32,12 @@ at::Tensor backward_weight(
       deterministic);
 }
 at::Tensor backward_input(
-    c10::ArrayRef<long int> input_size,
+    c10::ArrayRef<int64_t> input_size,
     const at::Tensor& grad_output,
     const at::Tensor& weight,
-    c10::ArrayRef<long int> padding,
-    c10::ArrayRef<long int> stride,
-    c10::ArrayRef<long int> dilation,
+    c10::ArrayRef<int64_t> padding,
+    c10::ArrayRef<int64_t> stride,
+    c10::ArrayRef<int64_t> dilation,
     int64_t groups,
     bool benchmark,
     bool deterministic) {
