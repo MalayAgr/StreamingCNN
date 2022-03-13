@@ -2,27 +2,23 @@
 Author: Hans Pinckaers
 MIT License
 """
+import collections.abc as container_abcs
 import copy
 import math
 import os
-import copy
 from dataclasses import dataclass
 from itertools import repeat
-from typing import NamedTuple, Union, List
+from typing import List, NamedTuple, Union
 
 import numpy as np
 import torch
 import torch.autograd
 import torch.backends
 import torch.nn.functional
-
-import collections.abc as container_abcs
 from torch.nn.modules.conv import _ConvNd
 from torch.nn.modules.utils import _pair
 from torch.utils.cpp_extension import load
-
 from tqdm import tqdm
-
 
 # from torch.nn.grad import _grad_input_padding
 
@@ -171,6 +167,17 @@ class StreamingConv2dF(torch.autograd.Function):
                     groups,
                 )
             else:
+                print(
+                    inpt.shape,
+                    grad_output,
+                    weight.to(inpt.dtype),
+                    stride,
+                    padding,
+                    dilation,
+                    groups,
+                    torch.backends.cudnn.benchmark,
+                    torch.backends.cudnn.deterministic,
+                )
                 # with autocast(enabled=False): ?
                 grad_in = cpp_functions.backward_input(
                     inpt.shape,
@@ -180,8 +187,8 @@ class StreamingConv2dF(torch.autograd.Function):
                     padding,
                     dilation,
                     groups,
-                    False,
-                    False,
+                    torch.backends.cudnn.benchmark,
+                    torch.backends.cudnn.deterministic,
                 )
         else:
             grad_in = None
@@ -300,8 +307,8 @@ class StreamingConv2dF(torch.autograd.Function):
                 stride[1:3],
                 dilation,
                 groups,
-                False,
-                False
+                torch.backends.cudnn.benchmark,  # benchmark
+                torch.backends.cudnn.deterministic,
             )  # deterministic
 
             if bias is not None:
